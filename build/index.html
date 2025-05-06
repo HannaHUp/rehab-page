@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#3498db">
   <title>身体小助理 - Body Assistant</title>
   <link rel="shortcut icon" href="./assets/favicon.png">
   <style>
@@ -13,95 +14,437 @@
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
         Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
       background-color: #f5f5f5;
-      color: #333;
     }
-    .container {
-      max-width: 600px;
+    .app-container {
+      max-width: 500px;
+      height: 100%;
       margin: 0 auto;
-      padding: 20px;
-      text-align: center;
-    }
-    .logo {
-      width: 120px;
-      height: 120px;
-      margin-bottom: 20px;
-      border-radius: 20px;
-    }
-    h1 {
-      color: #2e7d32;
-      margin-bottom: 20px;
-    }
-    .feature-list {
-      text-align: left;
-      margin: 30px auto;
-      max-width: 400px;
-    }
-    .feature-item {
-      margin-bottom: 15px;
+      background-color: white;
       display: flex;
+      flex-direction: column;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .tab-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 15px;
+    }
+    .tabs {
+      display: flex;
+      border-top: 1px solid #e0e0e0;
+      background-color: white;
+      height: 60px;
+    }
+    .tab {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
       align-items: center;
+      justify-content: center;
+      padding: 8px 0;
+      cursor: pointer;
+      color: #888;
     }
-    .emoji {
+    .tab.active {
+      color: #2e7d32;
+    }
+    .tab-icon {
       font-size: 24px;
-      margin-right: 15px;
-      width: 30px;
-      text-align: center;
+      margin-bottom: 4px;
     }
-    .button {
+    .tab-label {
+      font-size: 12px;
+    }
+    .card {
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      background: white;
+      overflow: hidden;
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 15px;
+      background-color: #f5f7f9;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .time-text {
+      font-weight: bold;
+      color: #555;
+    }
+    .name-text {
+      font-weight: bold;
+      color: #2e7d32;
+    }
+    .card-content {
+      display: flex;
+      padding: 15px;
+    }
+    .exercise-image {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 8px;
+      background-color: #e0e0e0;
+    }
+    .description-container {
+      flex: 1;
+      margin-left: 15px;
+    }
+    .description-text {
+      margin-bottom: 10px;
+      font-size: 14px;
+      color: #555;
+    }
+    .sets-reps-text {
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #2e7d32;
+    }
+    .check-in-button {
+      background-color: #e0e0e0;
+      border: none;
+      border-radius: 4px;
+      padding: 8px 12px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      color: #555;
+    }
+    .completed-button {
       background-color: #2e7d32;
       color: white;
-      padding: 12px 25px;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-      margin-top: 20px;
-      text-decoration: none;
-      display: inline-block;
     }
-    .button:hover {
-      background-color: #1b5e20;
+    .check-in-text {
+      font-weight: bold;
     }
-    .note {
-      font-style: italic;
-      margin-top: 30px;
-      color: #666;
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .date-display {
       font-size: 14px;
+      color: #666;
+    }
+    .page-title {
+      font-size: 24px;
+      margin: 0;
+      color: #2e7d32;
+      font-weight: bold;
+    }
+    .workout-label {
+      font-weight: bold;
+      color: #888;
+      margin-bottom: 20px;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <img src="./assets/icon.png" alt="App Logo" class="logo">
-    <h1>身体小助理 (Body Assistant)</h1>
-    <p>A personal rehabilitation and fitness tracking app to help you monitor exercises, breathing routines, track progress, and perform weekend assessments.</p>
-    
-    <div class="feature-list">
-      <div class="feature-item">
-        <div class="emoji">📅</div>
-        <div>Track CrossFit and rehabilitation exercises</div>
+  <div class="app-container">
+    <div class="tab-content" id="dailyContent">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Daily Plan</h1>
+          <div class="date-display" id="currentDate">Loading...</div>
+        </div>
+        <div class="workout-label" id="workoutLabel"></div>
       </div>
-      <div class="feature-item">
-        <div class="emoji">🌬</div>
-        <div>Record breathing exercises throughout the day</div>
-      </div>
-      <div class="feature-item">
-        <div class="emoji">📊</div>
-        <div>View stats and track your progress</div>
-      </div>
-      <div class="feature-item">
-        <div class="emoji">🧘‍♀️</div>
-        <div>Self-assessment tools and foam roller guides</div>
-      </div>
-      <div class="feature-item">
-        <div class="emoji">⚙️</div>
-        <div>Customize notifications and preferences</div>
+      
+      <div id="exerciseCards">
+        <!-- Exercise cards will be inserted here -->
       </div>
     </div>
     
-    <a href="https://github.com/HannaHUp/rehab-page" class="button">View on GitHub</a>
-    
-    <p class="note">This is a web version of our mobile app. For the full experience, please download the mobile app.</p>
+    <div class="tabs">
+      <div class="tab active" data-tab="daily">
+        <div class="tab-icon">📅</div>
+        <div class="tab-label">Daily</div>
+      </div>
+      <div class="tab" data-tab="breathing">
+        <div class="tab-icon">🌬️</div>
+        <div class="tab-label">Breathing</div>
+      </div>
+      <div class="tab" data-tab="stats">
+        <div class="tab-icon">📊</div>
+        <div class="tab-label">Stats</div>
+      </div>
+      <div class="tab" data-tab="weekend">
+        <div class="tab-icon">🧘‍♀️</div>
+        <div class="tab-label">Weekend</div>
+      </div>
+      <div class="tab" data-tab="settings">
+        <div class="tab-icon">⚙️</div>
+        <div class="tab-label">Settings</div>
+      </div>
+    </div>
   </div>
+
+  <script>
+    // Sample data
+    const WEEKDAY_NAMES = {
+      "0": "Sunday", "1": "Monday", "2": "Tuesday", "3": "Wednesday",
+      "4": "Thursday", "5": "Friday", "6": "Saturday"
+    };
+    
+    const WORKOUT_DESCRIPTIONS = {
+      "1": "Pendlay Row + Overhead Squat",
+      "2": "Deadlift + DB B-Stance RDL",
+      "3": "Snatch",
+      "4": "Back Squat + Front Squat",
+      "5": "Push Press",
+      "6": "Active Recovery",
+      "0": "Recovery & Self-Assessment"
+    };
+    
+    const WEEKLY_EXERCISE_SCHEDULE = {
+      "1": [
+        {
+          id: "mon-1",
+          time: "05:30",
+          name: "Pendlay Row",
+          description: "Barbell Row from the floor with strict form.",
+          sets: 5,
+          reps: 5,
+          image: "https://via.placeholder.com/100x100?text=Pendlay+Row"
+        },
+        {
+          id: "mon-2",
+          time: "06:15",
+          name: "Overhead Squat",
+          description: "Full depth squat with barbell overhead.",
+          sets: 3,
+          reps: 8,
+          image: "https://via.placeholder.com/100x100?text=Overhead+Squat"
+        }
+      ],
+      "2": [
+        {
+          id: "tue-1",
+          time: "05:30",
+          name: "Deadlift",
+          description: "Heavy conventional deadlifts.",
+          sets: 3,
+          reps: 5,
+          image: "https://via.placeholder.com/100x100?text=Deadlift"
+        },
+        {
+          id: "tue-2",
+          time: "06:15",
+          name: "DB B-Stance RDL",
+          description: "Romanian deadlift with offset stance.",
+          sets: 3,
+          reps: "8 each side",
+          image: "https://via.placeholder.com/100x100?text=RDL"
+        }
+      ],
+      "3": [
+        {
+          id: "wed-1",
+          time: "05:30",
+          name: "Snatch Practice",
+          description: "Technical work on the Olympic Snatch.",
+          sets: 6,
+          reps: 2,
+          image: "https://via.placeholder.com/100x100?text=Snatch"
+        },
+        {
+          id: "wed-2",
+          time: "06:15",
+          name: "Overhead Carries",
+          description: "Carry weight overhead for stability.",
+          sets: 3,
+          reps: "30m each arm",
+          image: "https://via.placeholder.com/100x100?text=OH+Carry"
+        }
+      ],
+      "4": [
+        {
+          id: "thu-1",
+          time: "05:30",
+          name: "Back Squat",
+          description: "Heavy back squats with good depth.",
+          sets: 5,
+          reps: 3,
+          image: "https://via.placeholder.com/100x100?text=Back+Squat"
+        },
+        {
+          id: "thu-2",
+          time: "06:15",
+          name: "Front Squat",
+          description: "Front-loaded squats for quad development.",
+          sets: 3,
+          reps: 8,
+          image: "https://via.placeholder.com/100x100?text=Front+Squat"
+        }
+      ],
+      "5": [
+        {
+          id: "fri-1",
+          time: "05:30",
+          name: "Push Press",
+          description: "Overhead press with leg drive.",
+          sets: 5,
+          reps: 5,
+          image: "https://via.placeholder.com/100x100?text=Push+Press"
+        },
+        {
+          id: "fri-2",
+          time: "06:15",
+          name: "Lateral Raises",
+          description: "Side delt raises with dumbbells.",
+          sets: 3,
+          reps: 12,
+          image: "https://via.placeholder.com/100x100?text=Lateral+Raises"
+        }
+      ],
+      "6": [
+        {
+          id: "sat-1",
+          time: "09:00",
+          name: "Light Jog",
+          description: "30-minute easy jog for recovery.",
+          sets: 1,
+          reps: "30 min",
+          image: "https://via.placeholder.com/100x100?text=Jogging"
+        },
+        {
+          id: "sat-2",
+          time: "10:00",
+          name: "Mobility Work",
+          description: "General mobility routine for recovery.",
+          sets: 1,
+          reps: "15 min",
+          image: "https://via.placeholder.com/100x100?text=Mobility"
+        }
+      ],
+      "0": [
+        {
+          id: "sun-1",
+          time: "REST DAY",
+          name: "Weekend Assessment",
+          description: "Complete your weekend assessment in the Weekend tab.",
+          image: "https://via.placeholder.com/100x100?text=Assessment"
+        }
+      ]
+    };
+    
+    // Initialize the app
+    document.addEventListener('DOMContentLoaded', function() {
+      // Set up date info
+      const date = new Date();
+      const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+      const dayOfWeek = String(date.getDay());
+      
+      document.getElementById('currentDate').textContent = `${WEEKDAY_NAMES[dayOfWeek]}, ${formattedDate}`;
+      document.getElementById('workoutLabel').textContent = WORKOUT_DESCRIPTIONS[dayOfWeek];
+      
+      // Load exercises for today
+      const dailyExercises = WEEKLY_EXERCISE_SCHEDULE[dayOfWeek] || [];
+      
+      // Create exercise cards
+      const exerciseCardsContainer = document.getElementById('exerciseCards');
+      exerciseCardsContainer.innerHTML = '';
+      
+      dailyExercises.forEach(exercise => {
+        const exerciseCard = document.createElement('div');
+        exerciseCard.className = 'card';
+        
+        exerciseCard.innerHTML = `
+          <div class="card-header">
+            <span class="time-text">${exercise.time}</span>
+            <span class="name-text">${exercise.name}</span>
+          </div>
+          <div class="card-content">
+            <img src="${exercise.image}" alt="${exercise.name}" class="exercise-image">
+            <div class="description-container">
+              <p class="description-text">${exercise.description}</p>
+              ${exercise.sets && exercise.reps ? `<p class="sets-reps-text">${exercise.sets} × ${exercise.reps}</p>` : ''}
+              <button class="check-in-button" data-id="${exercise.id}" onclick="toggleComplete('${exercise.id}')">
+                <span class="check-in-text">Mark Complete</span>
+              </button>
+            </div>
+          </div>
+        `;
+        
+        exerciseCardsContainer.appendChild(exerciseCard);
+      });
+      
+      // Set up tab switching
+      document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+          document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+          
+          const tabName = this.getAttribute('data-tab');
+          
+          if (tabName !== 'daily') {
+            alert(`The ${tabName} tab is coming soon! This is a static web version of the app.`);
+            document.querySelector('.tab[data-tab="daily"]').classList.add('active');
+            this.classList.remove('active');
+          }
+        });
+      });
+      
+      // Load saved completed exercises
+      loadCompletedExercises();
+    });
+    
+    // Toggle exercise completion
+    function toggleComplete(exerciseId) {
+      const button = document.querySelector(`.check-in-button[data-id="${exerciseId}"]`);
+      const isCompleted = button.classList.contains('completed-button');
+      
+      if (isCompleted) {
+        button.classList.remove('completed-button');
+        button.querySelector('.check-in-text').textContent = 'Mark Complete';
+        
+        // Save to storage
+        const completed = getCompletedExercises();
+        const updated = completed.filter(id => id !== exerciseId);
+        saveCompletedExercises(updated);
+      } else {
+        button.classList.add('completed-button');
+        button.querySelector('.check-in-text').textContent = 'Completed ✓';
+        
+        // Save to storage
+        const completed = getCompletedExercises();
+        completed.push(exerciseId);
+        saveCompletedExercises(completed);
+      }
+    }
+    
+    // Storage utilities
+    function getCompletedExercises() {
+      const date = new Date();
+      const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+      const key = `completed_exercises_${formattedDate}`;
+      
+      const saved = localStorage.getItem(key);
+      return saved ? JSON.parse(saved) : [];
+    }
+    
+    function saveCompletedExercises(exercises) {
+      const date = new Date();
+      const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+      const key = `completed_exercises_${formattedDate}`;
+      
+      localStorage.setItem(key, JSON.stringify(exercises));
+    }
+    
+    function loadCompletedExercises() {
+      const completed = getCompletedExercises();
+      
+      completed.forEach(exerciseId => {
+        const button = document.querySelector(`.check-in-button[data-id="${exerciseId}"]`);
+        if (button) {
+          button.classList.add('completed-button');
+          button.querySelector('.check-in-text').textContent = 'Completed ✓';
+        }
+      });
+    }
+  </script>
 </body>
 </html> 
