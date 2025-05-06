@@ -30,7 +30,8 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
     },
     "plugins": [
       [
@@ -41,7 +42,10 @@
         }
       ]
     ],
+    "experiments": {
+      "baseUrl": "/rehab-page"
+    },
     "description": "A personal rehabilitation and fitness tracking app to help you monitor exercises, breathing routines, and perform self-assessments.",
-    "githubUrl": "https://github.com/your-username/rehab-app"
+    "githubUrl": "https://github.com/HannaHUp/rehab-page"
   }
 }
